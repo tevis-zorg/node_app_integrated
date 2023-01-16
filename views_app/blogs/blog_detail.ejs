@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    <%- include('../partials_views_app/head.ejs') %> 
+    
+<body>
+    <%- include('../partials_views_app/nav.ejs')  %>
+    
+    <div class="blogs_detail_content">
+        <h2> 
+            <%= ronin_blogs.title %> 
+        </h2>
+        <h3>
+            By: 
+            <%= ronin_blogs.user_name %>
+        </h3>
+        <div class="blogs_content">
+            <p>
+                <%= ronin_blogs.body %> 
+            </p>
+        </div>
+        <!-- sends a request to delete data -->
+        <a class="delete" data-doc="<%= ronin_blogs.id %>">
+            <img src="/trashcan2.jpg" alt="delete icon" >
+        </a>
+    </div>
+    
+    <%- include('../partials_views_app/footer.ejs')  %>
+    
+    <script>
+        // receive the response in json file
+        const trashcan = document.querySelector('a.delete');
+        
+        trashcan.addEventListener('click', (e) => {
+            const endpoint = `/blogs/${trashcan.dataset.doc}`;
+            
+            fetch(endpoint, {
+                method:'DELETE'
+            })
+            .then((data_response) => data_response.json())//takes data response form server
+            .then((data_result) => window.location.href = data_result.redirecting)
+            .catch((err) => console.log(err))
+        })
+        
+    </script>
+</body>
+</html>

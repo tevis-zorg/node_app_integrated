@@ -1,0 +1,402 @@
+
+1. first look for the test.js.
+    in there is just the test. but you can play few things from it.
+
+2. global.js.
+    2.1 it tells and introducing us more about the global variable are.
+        i tried to combine the function with global.setTimeout(() => {}, timeout) there.
+
+    2.2 and the new things that i've learn is is setInterval(() => {}, interval)
+        it might be can be use as loading process. but on this time, it's just an expriment game.
+        
+3. global.js
+    3.1 in this file, i learn about how nodejs works with operating system. by calling few of available module
+        3.1.1 first, i've been taught about how to import os module " const var_name = require ('os'); "
+        3.2.1 second, trying to " console.log(__dirname) "
+        3.2.1 third, trying to " console.log(__filename) "
+
+4. module.js & people.js
+    4.1 it taught me how to create a file to be exported and 
+        then being imported into another file to runs.
+        
+    4.2 trying to console.log() inside the file which is imported by the people.js file.
+        it throws an error. just by importing the file inside the targeted file doesn't mean
+        we can access the things inside that file.
+
+    4.3 if we try to console.log() the variable inside the module.js
+        it will return an empty object.
+        
+    NOTE : (4.1, 4.2, 4.4.1) look and uncomment the all 1st pattern named comments.
+
+    4.4 so, the solution is we must export the file every variable that we want to access,
+        we must include it inside the exports module properties >> exports.module{properties}
+        it's called destructing method to call an object inside a the module.
+    
+        4.4.1 in this tuts it is covered some ways of calling an object inside a particullar module.
+        
+                4.4.1.1 firts, by console.log() and then runs the module inside the targeted file.
+                or, we can exporting module by setting multiple assigments or variable inside it
+                and calling it inside the targeted file.
+                
+                4.4.1.2 by define the exported module inside the preffered file inside the variable,
+                        we can access it by just calling the variable which the module are within it.
+                
+        4.4.2 and there's another method for it is "destructure" method to use.
+                by using the bracket {prop} of what the specific variable that we want to access.
+                NOTE : we must including any variable on the destructure 
+                        inside preferred file if we want to access it.
+                        
+    Temporary Conclusion : Either 1st / 2nd pattern (not error example) we can determine
+                            which obj that we want to take. to make it data maintanance more tidy
+                            we recommended using seperated file for the data module.
+                        
+5. files.js
+    NOTE : it uses asynchronous task which means, it takes sometime to do the task.
+    
+    5.1 first thing to learn here is how to reading, writing, and deleting files from a directory
+        before begin to create any of files that we want to create, firstly we imported the core module
+        which name is : const "var_name" = require ('fs') ;
+    
+        5.1.1 for the reading section we got the buffer and binary code if we don't convert it into string.
+            so, for the solutin we must use "data_name".toString(); funciton to make it become a string.
+        
+    5.2 and the, creating a variable that contains a core module inside const fs\file_system = require ('fs');
+    
+        5.2.1 within it, i learn to create a .txt document to be called inside the callback function.
+        
+            5.2.1.1 the call back function meaning itself is, when the first argument is completed.
+                    and this method calls asynchronous which means it takes some of time to do.
+                    when the first argument done, it will trigger the callback function. and not stop carrying
+                    to execute all lines of code if it taking some of time to do.
+                    so it means, it will excute the faster executeable line first.
+                
+            NOTE : the first argument is a string relative path of the file that we want to access.
+            
+            5.2.1.2 still inside how to Reading files with fs/file_system.
+                    after creating the param and the callback function as a param,
+                    i taught to set what this call back function do.
+                    
+                    5.2.1.2.1 put condition of err if it threw err.
+                    
+                    5.2.1.2.2 and console.log(data) of the preffered  file.
+                     while console.log(data) it returns the package of data when want to read this data.
+                     and to make it readable for human, the tuts use toString() function to make it readable as an information.
+                     
+            5.2.1.3 move to the Writing files with fs.writeFiles.
+                    here, it takes up 3 arguments 1st is the path, 2nd is the content, 3rd is the call back funciton.
+                    
+                    NOTE : when we writing new file name which doesn't exist, it will not throw the error.
+                            instead, it will create the new one. here we must more carefull before typing tht file path name's.
+            
+            5.2.1.4 begin the Directories files on files.js
+            
+                    firstly, we create the directory using "fs.mkdir("./path/name", (callback function) => {})".
+                    and when we create the directory which name is already exist, it will throw err [Error: EEXIST: file already exist, mkdir './directory']
+                    
+                    to handle the error, the tuts taught me to create the "if(!fs.existsSync('./dir_name')){code}".
+                    it means that, the program will only executed if the directory doesn't exist.
+                    
+                    NOTE:  the fs.existsSync() is the synchronous method it will block the code it's only gonna take
+                            a very short amount of time to do, and it's gonna check if something exist.
+                    
+                    and then, we the tuts added the "else" clause which contains the "fs.rmdir(`./dir_name` , (callback function) => {code})"
+                    the block of code inside this clause will execute if error does exist on the previous clause.
+                    to delete the file if it is was already created. and create the file again if we wanted the new one to be created.
+                    
+    Summary : in file system module, we can actually doing something to a particular data like write and read content of the data.
+
+6.Streams-and-buffer
+    Description : it means, we could start to using the data before it fully been read. using the analogy of we wanted to fill the pool from the water of basin
+            if we're waiting the amount of water to have enough capacity (like using gallon) to fill the pool, it will take a long time to fill the pool.
+            but, when we using the stream, it will begin to fill the pool a little bit at a time but we can use the pool with a bit of water in it almost straight away.
+            
+            like watching the streaming movie or videos online, the amount of little data was delivered to the browser or interface,
+            by not waiting of the full data or video to become fully downloaded. it is called (buffer).
+            
+    6.1 streams.js
+        6.1.1 fs.createReadStream(`./file/path`, {second_args}) on this section we are using this fs module to stream the data.
+        
+            6.1.1.1 while using this module, we using "readStreams.on('data', (chunk) => {})" this is the an eventlistener function
+                    but, in this section we using it to read the stream inside the data. so we can use the amount of chunk data while the
+                    data isn't fully loaded.
+            
+            6.1.1.2 on the second argument of the "fs.createReadStream" module, we using a curly bracket {encoding : 'utf8'}
+                    to makes the data instead of display a bit of data, it shows a readable data on the streams.
+            NOTE : using {encoding : "encoding_method"} it will makes it more dynamic of reading the data regardless of the data format.(maybe)
+        
+        6.1.2 fs.createWriteStream(`./file/path`)
+        
+            6.1.2.1 comes into using writeStreams. in this section, we wanted to create the new file, writing something inside the new file
+                    that we just created.
+                    (in the tuts case, it writing the previous data of the readStreams because it inside its function);
+                    
+    Summary : on streams & buffer, it makes us can begin to use something into the data to with no necessarily wait the data to fully loaded.
+
+7.server.js
+    Prologue : the clients and server realtion is, the client wanted to get something of our web page which the form is created in HTML
+                where the client/user can interact with. the server itself, it provides what the user need such as the display of the data
+                that were expected to become an output which intended by the client/users. so the data which occured of the server based
+                on the client/user request on it.
+                
+    Description : in node js, we manually create the server which can do the request and response.(http request/response)
+                    on this server.js, we can manually create a server which can perform the http req/res methond such as
+                    POST, CREATE, DELETE, UPDATE.
+    
+    7.1 firstly, we define what module that we wanted to use in this file. in this section, we are using
+        "const = require ('http');" module.
+        
+        7.1.1 and we create the "const server = http.createServer((req, res) => {})" which the call back function will runs everytime
+                a request come into our server. the call back function takes 2 argument which "req,res" arguments. it show we must do the request,
+                and the server send the response (place reverse like this "res,req" will produce an error).
+            
+            7.1.1.1 in req section, we focusing on how to makes a request of a website API's. it can be useful to dertermines what kind of
+                    data that we preffer to retrieve from the website.
+                    
+            7.1.1.2 jump right into the res section, it means what we can use as the response of the browser
+                    and we're using the "setHeader" methods which contains the "('Content-type')" header. it takes up 2 arguments,
+                    the first, is Content-type, and the second it could be data such as text, JSON, HTML.
+                    
+                7.1.1.2.1 there are 3 steps, 1st setting the header for the content-type being sent back to the browser(engines).
+                            2nd we're writing content we want send back to the browser(display), 3rd ending the response which then sends it back
+                            to the browser.
+            NOTE : on req, we determine how the client/the users act of website display(authrization). for the res, we act like the server(admin)
+                    to determine what does the users can do and interact with to our data.
+        
+        7.1.2 right after that, the server is not do anything yet because we haven't set any of request.
+                so the tuts tauhgt me to create "server_var.listen();" to invoke the listen method. and it passing
+                the argument on which port that we gonna want to listen to.
+                "server_var.listen(port , "hostname" , () => {});" the callback function will runs everytime the server starts listening.
+                
+            NOTE : when finished updating the code, using this method will need you to stop the running process on terminal first.
+                    and then start it again.(have't discover the new way yet. but without using nodemon as well.)
+        
+        7.1.3 after try to create the html display with with the server logic, now the tuts taught me to create it in seperated html file
+                to make it more tidy. and more focusing on what we want to send back to the browser.
+            
+            7.1.3.1 on the response section of the code, we only invoke the data inside the "res.end()" line. tuts do this
+                    because the case only using one data as the response. but, it's not stop us to makes the multiple data wrapped
+                    into one data and call it inside the "res.end()" or perhaps, we can use the multiple "res.write()" (not discover the execution
+                    time yet. which method is slower)
+        
+    7.2 secondly, we wanted our display become different after we putting slash or jump into another web section
+        so, we gone into routing section. which means, the url is depentdent on other html file to display a different page.
+        
+        7.2.1 to do that, we create the new file, "about.html" , and the "404.html" file to and we done this so we can server the
+                user who visits the route which doesn't exist(or not found)
+                
+            7.2.1.1 for this to happen is, first, we try to figure out what the path that we use to visit. in this case, the tuts using
+                    "switch"(javascript if/else). to determines what kind of home page the user like to visit.
+                    
+    7.3 next, we wanted to determine a response with status code inside our response. and for the status code itself,
+        is like below :
+        7.3.1 the 100 range - Informational Response
+        
+        7.3.2 the 200 range - Success Code Response
+        
+        7.3.3 the 300 range - Codes for Redirects Response
+        
+        7.3.4 the 400 range - User or Clients error Response Codes
+        
+        7.3.5 the 500 range - Internal Sever error Codes
+        
+        by default, every response are returns the 200sh codes. we must set the response by the logic to limits
+        the "req" and "res" of the users or clients.
+        
+        7.3.2(a) basically, the response will return the 200 as default. if no error code.
+        
+        7.3.3(a) for 301 is the the page are permanently moved into another url address.
+        
+    7.4 after the response status code , now the tuts shows me how to using the nodemon (third party package of npm)
+        that allow us to make changes into our code without restarting it manually.
+        
+        7.4.1 talk about the NPM modules, the tuts also show me how to create package dependencies which installed by typing
+                "npm init" inside the terminal for our project.
+                
+    7.5 moving to the express. express is a framework that helps us to easily manage our routing "req" ser-side
+        logic and responses to makes our code become easier to read and extend.
+        express saves our time, allows us to write clean code and it comes with extra features.
+                
+8. package.json file & installing package locally
+    
+    8.1 for creating the specific third party which are needed inside our project, we can manage it manually
+        inside "package.json" file. that can we perform by typing "npm init" on out terminal.
+        
+            8.1.1 and this "package.json" file contains the dependencies are needed inside our project.
+                like utility libraries, date/time libraries, frameworks, etc.
+                which implement extra feature  into our code and project.
+                
+                8.1.1.1 on this "package.json" itself, we installed the dependencies called "nodemon", and "lodash"
+                        for the version control etc inside this "package.json" i will discover by myself by looking to
+                        anohter tuts that covers the matrials for "package.json"(or perhaps git tuts).
+        
+    8.2 as the dependencies added, new dependencies are also included inside the node package.
+    
+9. app.js => app_integrated.js (on 9.4.4) => app_routes_handler.js (on 9.6).
+
+    9.1 like we did before inside the anoter file, we defines a specified dependency module inside our files,
+        in this case, we typing "const express = require('express')" for the defining.
+        
+        9.1.1 and invoking the "express" module that we define earlier inside "const app = express();"
+                right after that, we set where do our app to listen, in this case, we are using "app.listen(port)"
+                and then , the "app.get('/the/path', (req, res)=>{})" it takes 2 arguemnts. path and call back function
+    
+    9.2 goes to Routing & HTML, it on tuts, it will returns the real html files as a display. using "res.sendFile('./path/to/file, {root : __dirname})"
+        by that method, we should to specify what root use to be, "TypeError: path must be absolute or specify root to res.sendFile" it will
+        throw error like if it without object specification.
+        
+        9.2.1 {root : __dirname} object inside the res.sendFile() is used to determine the root path of out project.
+        
+        9.2.2 "res.redirect()" is used to redirect the user into another page.
+        
+        9.2.3 "res.use()" to create middleware and fire middleware functions in express. is to keep searching to match
+                "req" that user send, and if none of the "req" matches with the available "res", it will fire this middleware function.
+                we must use it at the very bottom of the code because, after this middleware was fired, it never check into another code.
+                
+        9.2.4 for the solution of doing that, we using "res.use((req, res, next) => {codes; next()}); which means, we tell to the middleware
+                that we've done doing something inside the code, and we want to pursue to the other.
+                "Next()" is a middleware function that calls for the control of another middleware once the code is completed.
+    
+    9.3 creating "register view engine" inside our app.js using "ejs" module that we've installed. and we use "app.set()"
+        and "app.set()" will let us configure some application settings. so we set it like this "app.set('views' , './path/to_dir)"
+         and then "app.set('view engine', 'ejs')" and then, the "ejs" module will automatically search for the file.
+         
+            9.3.1 after creating couple of ".ejs" files, we begin to implement it inside our "app.js" codes using "render()" methods.
+                    but, we haven't inject any dynamic content variable inside our ".ejs" files.
+                    
+            9.3.2 for a inject a dynamic funciton inside our ".ejs" files, we can type the javascript logic inside our ".ejs"
+                    files. for the tags of ".ejs" could like below :
+                    
+                    <% 'Scriptlet' tag, for control-flow, no output
+                    <%_ 'Whitespace Slurping' Scriptlet tag, strips all whitespace before it
+                    <%= Outputs the value into the template (escaped)
+                    <%- Outputs the unescaped value into the template
+                    <%# Comment tag, no execution, no output
+                    <%% Outputs a literal '<%'
+                    %%> Outputs a literal '%>'
+                    %> Plain ending tag
+                    -%> Trim-mode ('newline slurp') tag, trims following newline
+                    _%> 'Whitespace Slurping' ending tag, removes all whitespace after it
+                    
+                    9.3.2.1 by that tags, we first adding an object inside "res.render('path', {});" which means
+                            we adding seconde argument and that is an object argument. 
+                            for this case, inside the object arguments it only contain data for title name of the page.
+            
+            9.3.3 right on, we creating the a dynamic injection insdie our ".ejs" files, using "if(blogs.length > 0){}" inside "index.ejs"
+                    file, and using "forEach(blogs. => {})" inside it, and it fires after the statement in "if" block was fulfilled
+                    after that, the "<h3>" and "<p> tags display it.
+                    
+        EJS Template : The 'views' inside the "app.set('views', './relative/path)" is actually runs on the server side. and we wanted to passed
+                        our "render" code to the "view engine" on "ejs" , then finally the proccess is return our dynamic content like variables,
+                        loops , and other javascript methods back into the browser.
+            
+            9.3.4 after creating a dynamic "views_app" of "app.js", now we creating "partials_views_app" which the means
+                    here, we creating the partial view of the web inside seperated folder which files named with "footer.ejs, head.ejs, nav.ejs"
+                    by replacing them from their "full_page" HTML structure. by doing such, we can include them right back into their own "full_page"
+                    with typing "<%-include('./relative/path.ejs')" to become full structure.
+                    
+            NOTE : for this version, i learnt that EJS is a flexible and powerful templating engine that is widely used in Node.js applications. 
+                    It is particularly useful for building server-side rendering applications,
+                    where the initial HTML for a page is generated on the server and then updated dynamically on the client side.
+                    
+            9.3.5 still on the "partial_views_app" inside "head.ejs", we begin to add more styling with "CSS" styling.
+                    we can place it into a seperated file, using "middleware" for static files. because the browser automatically
+                    protect our file from the user. so, we need to determine which file that user can access using middleware called "static"
+                    inside the express.
+                    
+                    9.3.5.1 the static it self will allow to include the design for the web to become displayed to the browser.
+                    
+                    
+    9.4 Mongoose is an ODM library - Object Document Mapping library.
+        
+        9.4.1 creating a schema and a model for our blog data. so we creating new folder called models.
+                
+                9.4.1.1 "blogsDB.js" is the model and schema. we need "moogoose require('mongoose')" and a mongoose object
+                        "mongoose.Schema". the schema is the thing which going to define every structure of the documents we've
+                        gonna store inside the collection(open mongoDB website). and here, the mongoose do the heavy lifting for us
+                        by defining what we are gonna do with the data. so we must tell mongoose the "where to" is.
+                
+                9.4.1.2 the schema is the one which define the structure of our documents. and the models is the thing
+                        is surround the scheme and then provides us with an interface by which to communicate with a database
+                        collection for that document type.
+                        
+        9.4.2 and then using data model inside our code by calling it in while creating "const __isInstance = new model_name({obj})"
+        
+        9.4.2 after create the instance, we would like to save it into the database by using save method "__isInstance.save()"
+                and then the mongoose save our data inside the mongoDB atlas for us.
+                
+        9.4.3 using the method of "find()" and "findById()" from mongoose 3rd party modules, we can simply retrieve the data which we store
+                inside our database. for a specific one or all of the data within it.
+                
+        9.4.4 right after the understanding about using "find()" and "findById()" method, now we begin to integrating the data of mongoDB
+                with our display on the browser. by using the redirect, it redirect the address into another one that shows the data.
+        
+        9.4.5 we can use the same routes for different types of requests. because each reuqest's handled differently.
+                
+                9.4.5.1 for this section, it tries to figure out how the data of the form which we created to be sent to the database.
+                        so creating the url for this "POST" request is going to targeting the the routes of "/blogs" to make the form which
+                        we typed, posted inside the database.
+                        
+                9.4.5.2 now it left is how we gonna pass the data inside the database? for this, we using bit of middleware to do so.
+                        to send data in to workable format that we can use and it will attach it to the "app.post('/blog')" route's.
+                        with "app.use(express.urlencoded({option : value}))" we can use the data as the encoded format that we can work on.
+                        
+     9.5 routes parameter are the part of the route that are variable or could change. depend of on what information that we would like
+         to get.
+         
+        9.5.1 here, we wanted to be able to extract the database and query a specific data and send it back to the user.
+        
+                1st, we create a request for the specified id,
+                
+                2nd, extract the route parameter that shows in the url in request handler.
+                        to do this, we create a handler such "app.get("/url/:specified_data")" to specified the data which
+                        we want to extract from the database using ":".
+                        
+                3rd, right after that we creating how the user can interact with it with an interaction button.
+                
+                4th, after done creating and adding some style on it, and detail view for it on "blog_detail.ejs",
+                 then we jump right into creating delete button.
+                 
+                5th which means, it can delete the blog that have posted by a single user. using fetch api to send a delete request
+                 to the server and send the response back in json file for the front-end erase that data we've deleted.
+                 
+                 6th tries to redirect the page from the blog that we've deleted by using the "window.location.href = data.redirect"
+                 discovering a strssfull err here because after deleting the data that we preferred, website become crash.
+                 and threw er " CastError: Cast to ObjectId failed for value "create" (type string) at path "_id" for model "BlogsDB" "
+                 it seems the loading hang, and after that, it threw that error. 
+                 
+                 SOLUTION : the hang and error because if the ('blogs/:id') fires first, it will search for the id named with create instead
+                                of finding the "_id" from the database. so we put ('blogs/create') above the ('blogs/:id') route.
+                                so it best to specifies the url names carefully.
+                        
+        Summary : in this "blogsDB.js" the tuts taught me to create the instruction how the machine search for the data
+                        that we wanted to interact with (post, update, delete, write);
+                        
+        9.6 Express routes and NVC 
+                
+                9.6.1 Express routes used to manage all of our routes more efficiently and more tighly as well. the express router
+                        split our routes into different files and manage them all in small groups of routes that belong together.
+                        and it makes app more modular.
+                        
+                        9.6.1.1 app_integrated_routes_handler.js
+                                1st we create an instance of "app_routes" which is like a mini app, and attaching method to the "app_routes"
+                                and we export the "app_routes".
+                                
+                        9.6.1.2 scoping app_integrated_routes_handler.js
+                                and we can scope the "urls/" just by simply removing the url name from our "app_routes_handler"
+                                (see the example difference of app_routes_handler.js & app_integrated_routes_handler.js)
+                                the routes is automatically attach to each one of handlers inside the file. so we can be reusable.
+                                
+                9.6.2 MVC stands for Model, View, Controller and it is the way of structuring our code & files to keeps code more
+                        modular, reusable and easier to read.
+                        
+                        9.6.2.1 for the controller, it means that we seperate the routes of our apps into a little piece of files
+                                that we use to easily maintain the our app. the controller function it self is to communicate our models
+                                with the view. the point is, to make our code is cleaner and neater.
+                                
+10. app_integrated_blog_controller.js
+
+        10.1 makes the route handlers inside "app_integrated_routes_handler.js " live inside this folder. in order to easily maintaining the code
+                by tracking them in seperated file.
+        
+        10.2 in this section of file, we just moving the logic inside the controller without changing the function of the itself.
+                 to makes our code structured in much more logical way and that makes much more easier to maintain.
