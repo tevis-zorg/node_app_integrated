@@ -10,7 +10,7 @@ const app = express();
 
 
 // Connect into mongoDB
-const dbURI = 'mongodb+srv://i-ronin:nternet345@ironin.z5tsj0q.mongodb.net/node-ronin-blog?retryWrites=true&w=majority';
+const dbURI = 'mongodb+srv://<cluster_name>:<password>@ironin.z5tsj0q.mongodb.net/test?retryWrites=true&w=majority';
 mongoose.set('strictQuery' , false);//to supress the deprecation warning.
 mongoose.connect(dbURI , {useNewUrlParser : true, useUnifiedTopology : true})
     .then((result) => app.listen(8080))
